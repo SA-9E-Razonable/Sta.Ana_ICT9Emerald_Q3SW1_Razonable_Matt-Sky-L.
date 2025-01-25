@@ -1,0 +1,189 @@
+<html>
+<head>
+    <title> Q3 Seatwork 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+        body {
+            background-image:url('Pesos.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        h1 {
+            font-family: 'Anton';
+            font-size: 3.75rem;
+            color: white;
+            display: inline;
+            letter-spacing: 3px;
+        }
+
+        span {
+            font-family: 'Anton';
+            font-size: 4.5rem; 
+            color: #f9db59;
+            letter-spacing: 3px;
+        }
+
+        .box, .box-2 {
+            width: 100%;
+            max-width: 250px;
+            height: 65px;
+            border-radius: 10px;
+			font-family: 'Arial' !important;
+        }
+
+        .box {
+            background-color: white;
+            box-shadow: 10px 5px rgba(0, 0, 0, 1);
+            font-family: 'Anton';
+            font-size: 1.5rem;
+            color: black;
+            text-align: center;
+        }
+
+        .box-2 {
+            background-color: #005991;
+            box-shadow: 10px 5px rgba(255, 255, 255, 1);
+            font-family: 'Anton';
+            font-size: 1.5rem;
+            color: white;
+            text-align: center;
+			display: flex;
+    		align-items: center;
+    		justify-content: center;
+    		text-align: center;
+        }
+
+        .select {
+            font-size: 2.2rem;
+            font-weight: 550;
+            color: #f9db59;
+        }
+
+        .btn {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3)
+        }
+
+        .cad {
+            background-color: rgb(230, 143, 92);
+        }
+
+        .aud {
+            background-color: rgb(128, 68, 239);
+        }
+
+        .nzd {
+            background-color: rgb(115, 115, 115);
+        }
+
+        .footer {
+            margin-right: 200px;
+        }
+
+        .refresh {
+            font-size: 2.5rem;
+            font-weight: 550;
+            color: white;
+            text-decoration:none;
+        }
+
+        #refresh {
+            width: 70px;
+        }
+
+        .cad:hover {
+                background-color: rgb(230, 143, 92);
+        }
+        
+        .aud:hover {
+            background-color: rgb(128, 68, 239);
+        }
+
+        .nzd:hover {
+            background-color: rgb(115, 115, 115);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4 ms-2 animate__animated animate__fadeInLeft">
+        <div class="container-fluid my-3">
+            <div class="row mx-2">
+                <div class="col-md-12 col-6">
+                    <h1>CONVERT YOUR</h1>
+                    <span class="mx-4">PESOS</span>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row mx-4">
+                <div class="col-3">
+                    <input type="number" id="pesoInput" class="box" placeholder="Input Piso">
+                </div>
+                <div class="col-3">
+                    <div id="resultBox" class="box-2">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mt-5">
+            <div class="row ms-5">
+                <div class="col-6">
+                    <p class="mx-1 mb-4 select">Select your currency to convert</p>
+                </div>
+            </div>
+            <div class="row ms-5">
+                <div class="col-6 mb-4 ms-5">
+                    <button class="btn btn-dark mt-2 text-center cad" onclick="convertCurrency(0.025, 'Canadian Dollar', 'btnCAD')">
+                    Canadian Dollar<br>CAD</button>
+                </div>
+            </div>
+            <div class="row ms-5">
+                <div class="col-6 mb-4 ms-5">
+                    <button class="btn btn-dark text-center aud" onclick="convertCurrency(0.027, 'Australian Dollar', 'btnAUD')">
+                    Australian Dollar<br>AUD</button>
+                </div>
+            </div>
+            <div class="row ms-5">
+                <div class="col-6 mb-1 ms-5">
+                    <button class="btn btn-dark text-center nzd" onclick="convertCurrency(0.031, 'New Zealand Dollar', 'btnNZD')">
+                    New Zealand Dollar<br>NZD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid animate__animated animate__fadeInLeft">
+        <div class="row footer mt-1">
+            <div class="col-6 d-flex ms-auto me-5">
+                <img src="refresh.png" id="refresh" class="me-2">
+                <a href="index.html" class="refresh mt-1">REFRESH</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convertCurrency(rate, currency, buttonId) {
+            let pesoValue = document.getElementById('pesoInput').value;
+            if (!pesoValue || pesoValue <= 0) {
+                alert("Please input a valid amount of Pesos!");
+                return;
+            }
+            let convertedValue = (pesoValue * rate).toFixed(2);
+            document.getElementById('resultBox').innerHTML = `${convertedValue} ${currency}`;
+        }
+    </script>
+</body>
+</html>
